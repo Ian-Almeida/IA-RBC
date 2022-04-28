@@ -11,8 +11,7 @@
       <q-card-section>
         <q-form
           @submit="onSubmit"
-          @reset="onReset"
-          class="q-gutter-md"
+          class="q-gutter-xs"
           ref="myForm"
         >
           <q-input
@@ -47,16 +46,30 @@
             :options="PeriodoOptions"
             option-value="value"
             option-label="label"
+            lazy-rules
+            :rules="[formRules.required]"
           ></q-select>
+          <q-input
+            filled
+            v-model="formState.genero_favorito"
+            label="Gênero favorito"
+            lazy-rules
+            :rules="[formRules.required]"
+          />
+          <q-input
+            filled
+            v-model="formState.tempo_disponivel"
+            label="Tempo disponível"
+            lazy-rules
+            :rules="[formRules.required, (v) => v.length === 5 || 'Digite um horário completo']"
+            mask="##:##"
+          />
           <div>
-            <q-btn label="Submit" type="submit" color="primary"/>
+            <q-btn label="Enviar" type="submit" color="primary"/>
+            <q-btn class="float-right" label="Visualizar Base" color="secondary" to="/database"/>
           </div>
         </q-form>
       </q-card-section>
-      <q-card-actions>
-        <q-btn flat>Action 1</q-btn>
-        <q-btn flat>Action 2</q-btn>
-      </q-card-actions>
     </q-card>
   </div>
 </template>
@@ -98,16 +111,13 @@ const formState = ref({
 })
 
 async function createDB () {
-  //await api.getDB()
+  await api.getDB()
   return true
 }
 
 async function onSubmit () {
   await createDB()
   console.log(await myForm.value.validate())
-  return
-}
-function onReset () {
   return
 }
 
