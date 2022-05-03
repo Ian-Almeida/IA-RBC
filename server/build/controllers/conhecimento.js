@@ -16,31 +16,42 @@ const express_1 = require("express");
 const conhecimento_1 = __importDefault(require("../services/conhecimento"));
 class ConhecimentoController {
     constructor() {
-        this.index = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            // res.send('Conhecimento Index')
-            res.send(yield this.services.index());
+        this.findAll = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            res.send(yield this.services.findAll());
+        });
+        this.findOne = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            if (req.params.id) {
+                const id = +req.params.id;
+                res.send(yield this.services.findOne(id));
+                return;
+            }
+            else {
+                res.status(500).send('Missing parameter!');
+            }
         });
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            // res.send('Conhecimento Create')
-            res.send(this.services.create());
+            const objIn = req.body;
+            res.send(this.services.create(objIn));
         });
         this.update = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            // res.send('Conhecimento Update')
-            res.send(this.services.update());
+            const id = +req.params.id;
+            const objIn = req.body;
+            res.send(yield this.services.update(id, objIn));
         });
         this.delete = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            // res.send('Conhecimento Delete')
-            res.send(this.services.delete());
+            const id = +req.params.id;
+            res.send(this.services.delete(id));
         });
         this.router = (0, express_1.Router)();
         this.services = new conhecimento_1.default();
         this.routes();
     }
     routes() {
-        this.router.get('/', this.index);
+        this.router.get('/', this.findAll);
+        this.router.get('/:id/', this.findOne);
         this.router.post('/', this.create);
-        this.router.put('/:id', this.update);
-        this.router.delete('/:id', this.delete);
+        this.router.put('/:id/', this.update);
+        this.router.delete('/:id/', this.delete);
     }
 }
 exports.default = ConhecimentoController;

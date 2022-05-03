@@ -1,22 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class ConhecimentoEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    idade: number;
+  @Column({ nullable: true })
+  idade: number;
 
-    @Column()
-    periodo: number;
+  @Column({ nullable: true })
+  periodo: number;
 
-    @Column()
-    generoFavorito: string;
-    
-    @Column()
-    estado: string;
+  @Column({ nullable: true })
+  generoFavorito: string;
 
-    @Column()
-    horasDisponiveis: number;
+  @Column({ nullable: true })
+  filmeSerie: string;
+
+  @Column({ nullable: true })
+  estado: string;
+
+  @Column({ nullable: true })
+  horasDisponiveis: number;
 }

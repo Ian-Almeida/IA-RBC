@@ -16,25 +16,20 @@ const conhecimento_1 = require("../entities/conhecimento");
 const database_1 = __importDefault(require("../database"));
 class ConhecimentoService {
     constructor() {
-        this.index = () => __awaiter(this, void 0, void 0, function* () {
+        this.findAll = () => __awaiter(this, void 0, void 0, function* () {
             return yield this.repository.find();
-            return "Index from service";
         });
-        this.create = () => __awaiter(this, void 0, void 0, function* () {
-            const obj = new conhecimento_1.ConhecimentoEntity();
-            obj.estado = 'SC';
-            obj.generoFavorito = 'Aventura';
-            obj.horasDisponiveis = 2.3;
-            obj.idade = 12;
-            obj.periodo = 1;
-            yield this.repository.save(obj);
-            return "Create from service";
+        this.findOne = (id) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.findOne({ where: { id: id } });
         });
-        this.update = () => {
-            return "Update from service";
+        this.create = (objIn) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.save(objIn);
+        });
+        this.update = (id, objIn) => {
+            return 'Update from service';
         };
-        this.delete = () => {
-            return "Delete from service";
+        this.delete = (id) => {
+            return 'Delete from service';
         };
         this.repository = database_1.default.db.getRepository(conhecimento_1.ConhecimentoEntity);
     }

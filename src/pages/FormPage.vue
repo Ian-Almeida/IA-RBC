@@ -6,12 +6,14 @@
           <q-card-section>
             <div class="row items-center text-center no-wrap">
               <div class="col">
-                <div class="text-h6">Recomendações para as informações do formulário ao lado</div>
+                <div class="text-h6">
+                  Recomendações para as informações do formulário ao lado
+                </div>
               </div>
             </div>
           </q-card-section>
           <q-card-section>
-            <RecomendationsComponent :recomendation-result="dummyContent"/>
+            <RecomendationsComponent :recomendation-result="dummyContent" />
           </q-card-section>
         </q-card>
       </div>
@@ -25,11 +27,7 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <q-form
-              @submit="onSubmit"
-              class="q-gutter-xs"
-              ref="myForm"
-            >
+            <q-form @submit="onSubmit" class="q-gutter-xs" ref="myForm">
               <q-input
                 filled
                 v-model="formState.idade"
@@ -77,124 +75,139 @@
                 v-model="formState.tempo_disponivel"
                 label="Tempo disponível"
                 lazy-rules
-                :rules="[formRules.required, (v) => v.length === 5 || 'Digite um horário completo']"
+                :rules="[
+                  formRules.required,
+                  (v) => v.length === 5 || 'Digite um horário completo',
+                ]"
                 mask="##:##"
               />
               <div>
-                <q-btn label="Enviar" type="submit" color="primary"/>
-                <q-btn class="float-right" label="Visualizar Base" color="secondary" to="/database"/>
+                <q-btn label="Enviar" type="submit" color="primary" />
+                <q-btn
+                  class="float-right"
+                  label="Visualizar Base"
+                  color="secondary"
+                  to="/database"
+                />
               </div>
             </q-form>
           </q-card-section>
         </q-card>
       </div>
     </div>
-
   </div>
 </template>
 
 <script lang="ts" setup>
-import api from 'src/api'
-import formRules from 'src/formRules'
-import { ESTADOS } from 'src/utils'
-import { ref } from 'vue'
-import {QForm} from 'quasar';
-import {EPeriodo} from 'src/types/enumerations';
+import api from 'src/api';
+import formRules from 'src/formRules';
+import { ESTADOS } from 'src/utils';
+import { onMounted, ref } from 'vue';
+import { QForm } from 'quasar';
+import { EPeriodo } from 'src/types/enumerations';
 import RecomendationsComponent from 'components/RecomendationsComponent.vue';
 
 const PeriodoOptions = [
   {
-    value: EPeriodo.MANHA, label: 'MANHÃ'
+    value: EPeriodo.MANHA,
+    label: 'MANHÃ',
   },
   {
-    value: EPeriodo.TARDE, label: 'TARDE'
+    value: EPeriodo.TARDE,
+    label: 'TARDE',
   },
   {
-    value: EPeriodo.NOITE, label: 'NOITE'
-  }
-]
+    value: EPeriodo.NOITE,
+    label: 'NOITE',
+  },
+];
 
 //@ts-ignore
-const myForm = ref<QForm>(null)
+const myForm = ref<QForm>(null);
 const formState = ref({
-  idade: null,
+  idade: 1,
   filme_serie: '',
-  periodo: null,
+  periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
   genero_favorito: '',
   estado: '',
-  tempo_disponivel: null
-})
+  tempo_disponivel: '',
+});
 
-async function createDB () {
-  await api.getDB()
-  return true
+async function onSubmit() {
+  const isValid = await myForm.value.validate();
+  if (isValid) {
+    // const result = await api.CreateConhecimento(formState.value);
+    // console.log(result);
+  }
+
+  return;
 }
 
-async function onSubmit () {
-  await createDB()
-  console.log(await myForm.value.validate())
-  return
-}
+onMounted(async () => {
+  const result = await api.FindAllConhecimento();
+  // const result = await api.FindOneConhecimento(1);
+  // const result = await api.CreateConhecimento(formState.value);
+  // console.log(result);
+});
 
 const dummyContent = [
   {
     idade: 22,
     filme_serie: 'Vikings',
-    periodo: {value: EPeriodo.NOITE, label: 'NOITE'},
+    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
     genero_favorito: 'Medieval',
     estado: 'PR',
-    tempo_disponivel: '01:30'
+    tempo_disponivel: '01:30',
   },
   {
     idade: 55,
     filme_serie: 'De volta para o futuro',
-    periodo: {value: EPeriodo.TARDE, label: 'TARDE'},
+    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
     genero_favorito: 'Aventura',
     estado: 'SC',
-    tempo_disponivel: '00:30'
+    tempo_disponivel: '00:30',
   },
   {
     idade: 22,
     filme_serie: 'Vikings',
-    periodo: {value: EPeriodo.NOITE, label: 'NOITE'},
+    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
     genero_favorito: 'Medieval',
     estado: 'PR',
-    tempo_disponivel: '01:30'
+    tempo_disponivel: '01:30',
   },
   {
     idade: 55,
     filme_serie: 'De volta para o futuro',
-    periodo: {value: EPeriodo.TARDE, label: 'TARDE'},
+    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
     genero_favorito: 'Aventura',
     estado: 'SC',
-    tempo_disponivel: '00:30'
+    tempo_disponivel: '00:30',
   },
   {
     idade: 22,
     filme_serie: 'Vikings',
-    periodo: {value: EPeriodo.NOITE, label: 'NOITE'},
+    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
     genero_favorito: 'Medieval',
     estado: 'PR',
-    tempo_disponivel: '01:30'
+    tempo_disponivel: '01:30',
   },
   {
     idade: 55,
     filme_serie: 'De volta para o futuro',
-    periodo: {value: EPeriodo.TARDE, label: 'TARDE'},
+    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
     genero_favorito: 'Aventura',
     estado: 'SC',
-    tempo_disponivel: '00:30'
+    tempo_disponivel: '00:30',
   },
   {
     idade: 55,
     filme_serie: 'De volta para o futuro',
-    periodo: {value: EPeriodo.TARDE, label: 'TARDE'},
+    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
     genero_favorito: 'Aventura',
     estado: 'SC',
-    tempo_disponivel: '00:30'
+    tempo_disponivel: '00:30',
   },
-]
-
+];
 </script>
 
 <style scoped>

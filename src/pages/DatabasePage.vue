@@ -13,52 +13,91 @@
         <q-btn to="/" label="Voltar" color="primary"></q-btn>
       </q-card-actions>
     </q-card>
-
   </div>
 </template>
 
 <script lang="ts" setup>
+import { IConhecimento } from 'src/types/interfaces';
+import { EPeriodo } from 'src/types/enumerations';
 
-import {IRecomendationDB} from 'src/types/interfaces';
-import {EPeriodo} from 'src/types/enumerations';
-
-const recomendations: Array<IRecomendationDB> = [
+const recomendations: Array<IConhecimento> = [
   {
     idade: 22,
     filme_serie: 'Vikings',
-    periodo: {value: EPeriodo.NOITE, label: 'NOITE'},
+    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
     genero_favorito: 'Medieval',
     estado: 'PR',
-    tempo_disponivel: '01:30'
+    tempo_disponivel: '01:30',
   },
   {
     idade: 55,
     filme_serie: 'De volta para o futuro',
-    periodo: {value: EPeriodo.TARDE, label: 'TARDE'},
+    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
     genero_favorito: 'Aventura',
     estado: 'SC',
-    tempo_disponivel: '00:30'
+    tempo_disponivel: '00:30',
   },
   {
     idade: 30,
     filme_serie: 'Bridgerton',
-    periodo: {value: EPeriodo.MANHA, label: 'MANHÃ'},
+    periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
     genero_favorito: 'Romance',
     estado: 'SC',
-    tempo_disponivel: '04:15'
-  }
-]
+    tempo_disponivel: '04:15',
+  },
+];
 
 const columns = [
-  { name: 'idade', align: 'left', label: 'Idade', field: 'idade', sortable: true },
-  { name: 'filme_serie', align: 'left', label: 'Filme / Série', field: 'filme_serie', sortable: true },
-  { name: 'periodo', align: 'left', label: 'Período', field: 'periodo', sortable: true },
-  { name: 'genero_favorito', align: 'left', label: 'Gênero favorito', field: 'genero_favorito', sortable: true },
-  { name: 'genero_favorito', align: 'left', label: 'Gênero favorito', field: 'genero_favorito', sortable: true },
-  { name: 'estado', align: 'left', label: 'Estado', field: 'estado', sortable: true },
-  { name: 'tempo_disponivel', align: 'left', label: 'Tempo disponível', field: 'tempo_disponivel', sortable: true },
-]
-
+  {
+    name: 'idade',
+    align: 'left',
+    label: 'Idade',
+    field: 'idade',
+    sortable: true,
+  },
+  {
+    name: 'filme_serie',
+    align: 'left',
+    label: 'Filme / Série',
+    field: 'filme_serie',
+    sortable: true,
+  },
+  {
+    name: 'periodo',
+    align: 'left',
+    label: 'Período',
+    field: 'periodo',
+    sortable: true,
+  },
+  {
+    name: 'genero_favorito',
+    align: 'left',
+    label: 'Gênero favorito',
+    field: 'genero_favorito',
+    sortable: true,
+  },
+  {
+    name: 'genero_favorito',
+    align: 'left',
+    label: 'Gênero favorito',
+    field: 'genero_favorito',
+    sortable: true,
+  },
+  {
+    name: 'estado',
+    align: 'left',
+    label: 'Estado',
+    field: 'estado',
+    sortable: true,
+  },
+  {
+    name: 'tempo_disponivel',
+    align: 'left',
+    label: 'Tempo disponível',
+    field: 'tempo_disponivel',
+    sortable: true,
+  },
+];
 </script>
 
 <style scoped>
