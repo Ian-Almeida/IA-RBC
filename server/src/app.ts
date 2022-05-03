@@ -8,7 +8,7 @@ import ConhecimentoController from './controllers/conhecimento';
 (async () => {
   await database.db.initialize();
   // Descomentar quando mudar ou adicionar alguma entidade, realiza a sincronização do banco com as entidade encontradas
-  //   await database.db.synchronize();
+  await database.db.synchronize();
 })();
 
 // Instancia dos controllers para plugar ao app express (ENDPOINTS)

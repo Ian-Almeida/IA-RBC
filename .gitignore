@@ -2,6 +2,7 @@
 .thumbs.db
 node_modules
 /server/node_modules
+/server/build
 
 # Quasar core related directories
 .quasar

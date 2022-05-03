@@ -21,7 +21,7 @@ const conhecimento_1 = __importDefault(require("./controllers/conhecimento"));
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield database_1.default.db.initialize();
     // Descomentar quando mudar ou adicionar alguma entidade, realiza a sincronização do banco com as entidade encontradas
-    //   await database.db.synchronize();
+    yield database_1.default.db.synchronize();
 }))();
 // Instancia dos controllers para plugar ao app express (ENDPOINTS)
 const controllers = {

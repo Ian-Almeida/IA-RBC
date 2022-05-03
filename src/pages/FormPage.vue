@@ -13,7 +13,7 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <RecomendationsComponent :recomendation-result="dummyContent" />
+            <RecomendationsComponent :recomendation-result="recomendations" />
           </q-card-section>
         </q-card>
       </div>
@@ -48,7 +48,7 @@
               ></q-select>
               <q-input
                 filled
-                v-model="formState.filme_serie"
+                v-model="formState.filmeSerie"
                 label="Filme / Série"
                 lazy-rules
                 :rules="[formRules.required]"
@@ -57,7 +57,7 @@
                 filled
                 v-model="formState.periodo"
                 label="Período do dia"
-                :options="PeriodoOptions"
+                :options="PeriodoOptionsList"
                 option-value="value"
                 option-label="label"
                 lazy-rules
@@ -65,14 +65,14 @@
               ></q-select>
               <q-input
                 filled
-                v-model="formState.genero_favorito"
+                v-model="formState.generoFavorito"
                 label="Gênero favorito"
                 lazy-rules
                 :rules="[formRules.required]"
               />
               <q-input
                 filled
-                v-model="formState.tempo_disponivel"
+                v-model="formState.tempoDisponivel"
                 label="Tempo disponível"
                 lazy-rules
                 :rules="[
@@ -102,112 +102,56 @@
 import api from 'src/api';
 import formRules from 'src/formRules';
 import { ESTADOS } from 'src/utils';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { QForm } from 'quasar';
 import { EPeriodo } from 'src/types/enumerations';
 import RecomendationsComponent from 'components/RecomendationsComponent.vue';
-
-const PeriodoOptions = [
-  {
-    value: EPeriodo.MANHA,
-    label: 'MANHÃ',
-  },
-  {
-    value: EPeriodo.TARDE,
-    label: 'TARDE',
-  },
-  {
-    value: EPeriodo.NOITE,
-    label: 'NOITE',
-  },
-];
+import { IConhecimentoList } from 'src/types/interfaces';
+import { PeriodoOptions } from 'src/constants';
+import _ from 'lodash';
 
 //@ts-ignore
 const myForm = ref<QForm>(null);
 const formState = ref({
-  idade: 1,
-  filme_serie: '',
+  idade: null,
+  filmeSerie: '',
   periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
-  genero_favorito: '',
+  generoFavorito: '',
   estado: '',
-  tempo_disponivel: '',
+  tempoDisponivel: '',
 });
+const recomendations = ref<IConhecimentoList[]>([]);
 
 async function onSubmit() {
   const isValid = await myForm.value.validate();
   if (isValid) {
-    // const result = await api.CreateConhecimento(formState.value);
-    // console.log(result);
-  }
+    await api.CreateConhecimento({
+      ...formState.value,
+      periodo: formState.value.periodo.value,
+    });
 
+    const result = await api.FindAllConhecimento();
+    const arr = _.map(result, (item) => {
+      const option = _.find(
+        PeriodoOptions,
+        (val) => val.value === item.periodo
+      );
+      return {
+        ...item,
+        periodo: { value: item.periodo, label: option ? option.label : '' },
+      };
+    });
+
+    recomendations.value = arr;
+  }
   return;
 }
 
-onMounted(async () => {
-  const result = await api.FindAllConhecimento();
-  // const result = await api.FindOneConhecimento(1);
-  // const result = await api.CreateConhecimento(formState.value);
-  // console.log(result);
-});
+const PeriodoOptionsList = computed(() => PeriodoOptions);
 
-const dummyContent = [
-  {
-    idade: 22,
-    filme_serie: 'Vikings',
-    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
-    genero_favorito: 'Medieval',
-    estado: 'PR',
-    tempo_disponivel: '01:30',
-  },
-  {
-    idade: 55,
-    filme_serie: 'De volta para o futuro',
-    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
-    genero_favorito: 'Aventura',
-    estado: 'SC',
-    tempo_disponivel: '00:30',
-  },
-  {
-    idade: 22,
-    filme_serie: 'Vikings',
-    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
-    genero_favorito: 'Medieval',
-    estado: 'PR',
-    tempo_disponivel: '01:30',
-  },
-  {
-    idade: 55,
-    filme_serie: 'De volta para o futuro',
-    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
-    genero_favorito: 'Aventura',
-    estado: 'SC',
-    tempo_disponivel: '00:30',
-  },
-  {
-    idade: 22,
-    filme_serie: 'Vikings',
-    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
-    genero_favorito: 'Medieval',
-    estado: 'PR',
-    tempo_disponivel: '01:30',
-  },
-  {
-    idade: 55,
-    filme_serie: 'De volta para o futuro',
-    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
-    genero_favorito: 'Aventura',
-    estado: 'SC',
-    tempo_disponivel: '00:30',
-  },
-  {
-    idade: 55,
-    filme_serie: 'De volta para o futuro',
-    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
-    genero_favorito: 'Aventura',
-    estado: 'SC',
-    tempo_disponivel: '00:30',
-  },
-];
+onMounted(async () => {
+  return;
+});
 </script>
 
 <style scoped>

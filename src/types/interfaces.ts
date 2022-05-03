@@ -5,10 +5,19 @@ interface IPeriodo {
   label: string;
 }
 
-export interface IConhecimentoCreate {
-  idade: number;
+export interface IConhecimentoList {
+  idade: number | null | undefined;
   filmeSerie: string;
   periodo: IPeriodo;
+  generoFavorito: string;
+  estado: string;
+  tempoDisponivel: string;
+}
+
+export interface IConhecimentoCreate {
+  idade: number | null | undefined;
+  filmeSerie: string;
+  periodo: number;
   generoFavorito: string;
   estado: string;
   tempoDisponivel: string;
@@ -19,10 +28,10 @@ export interface IConhecimento extends IConhecimentoCreate {
 }
 
 export interface IConhecimentoUpdate {
-  id?: number;
+  id?: number | null | undefined;
   idade?: number;
   filmeSerie?: string;
-  periodo?: IPeriodo;
+  periodo?: number;
   generoFavorito?: string;
   estado?: string;
   tempoDisponivel?: string;

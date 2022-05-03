@@ -40,8 +40,8 @@ __decorate([
 ], ConhecimentoEntity.prototype, "estado", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], ConhecimentoEntity.prototype, "horasDisponiveis", void 0);
+    __metadata("design:type", String)
+], ConhecimentoEntity.prototype, "tempoDisponivel", void 0);
 ConhecimentoEntity = __decorate([
     (0, typeorm_1.Entity)()
 ], ConhecimentoEntity);

@@ -18,7 +18,7 @@ export default {
       }
     } catch (e) {
       console.log(e);
-      return false;
+      return [];
     }
   },
   async FindOneConhecimento(id: number) {
@@ -31,10 +31,12 @@ export default {
       }
     } catch (e) {
       console.log(e);
-      return false;
+      return null;
     }
   },
-  async CreateConhecimento(payload: IConhecimentoCreate) {
+  async CreateConhecimento(
+    payload: IConhecimentoCreate
+  ): Promise<IConhecimento | null> {
     try {
       const response = await axios.post<IConhecimento>(
         `${APIURL}/conhecimento/`,
@@ -45,8 +47,9 @@ export default {
       }
     } catch (e) {
       console.log(e);
-      return false;
+      return null;
     }
+    return null;
   },
   async UpdateConhecimento(payload: IConhecimentoUpdate) {
     try {
@@ -59,7 +62,7 @@ export default {
       }
     } catch (e) {
       console.log(e);
-      return false;
+      return null;
     }
   },
   async DeleteConhecimento(id: number) {
@@ -72,7 +75,7 @@ export default {
       }
     } catch (e) {
       console.log(e);
-      return false;
+      return null;
     }
   },
 };

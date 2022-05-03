@@ -8,11 +8,11 @@
       <div class="col q-mr-lg" v-for="(col, idxCol) in row" :key="idxCol">
         <q-card class="my-card">
           <q-card-section class="text-center">
-            <span class="text-h6">{{ col.filme_serie }}</span>
+            <span class="text-h6">{{ col.filmeSerie }}</span>
             <q-list>
               <q-item>
                 <q-item-section>
-                  <q-item-label>{{ col.genero_favorito }}</q-item-label>
+                  <q-item-label>{{ col.generoFavorito }}</q-item-label>
                   <!--                <q-item-label caption lines="2">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>-->
                 </q-item-section>
               </q-item>
@@ -29,18 +29,18 @@
 </template>
 
 <script lang="ts" setup>
-import { IConhecimento } from 'src/types/interfaces';
+import { IConhecimentoList } from 'src/types/interfaces';
 import { computed } from 'vue';
 
 interface Props {
-  recomendationResult: Array<IConhecimento>;
+  recomendationResult: Array<IConhecimentoList>;
 }
 
 const props = defineProps<Props>();
 
 const recomendations = computed(() => {
-  const arrFinal: Array<Array<IConhecimento>> = [];
-  let arr: IConhecimento[] = [];
+  const arrFinal: Array<Array<IConhecimentoList>> = [];
+  let arr: IConhecimentoList[] = [];
 
   let counter = 0;
   props.recomendationResult.forEach((item, index) => {

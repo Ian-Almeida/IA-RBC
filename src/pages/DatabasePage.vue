@@ -2,12 +2,33 @@
   <div class="my-container">
     <q-card flat bordered>
       <q-card-section>
-        <q-table
-          title="Base de dados"
-          :rows="recomendations"
-          :columns="columns"
-          row-key="name"
-        ></q-table>
+        <transition
+          appear
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+        >
+          <q-table
+            title="Base de dados"
+            :rows="recomendations"
+            :columns="columns"
+            row-key="name"
+            :loading="loading"
+          >
+            <template #body-cell-periodo="props">
+              <q-td key="periodo" :props="props">
+                {{ props.row.periodo.label }}
+              </q-td>
+            </template>
+            <template #loading>
+              <q-inner-loading
+                :showing="loading"
+                label="Carregando..."
+                label-class="text-primary"
+                label-style="font-size: 1.1em"
+              />
+            </template>
+          </q-table>
+        </transition>
       </q-card-section>
       <q-card-actions>
         <q-btn to="/" label="Voltar" color="primary"></q-btn>
@@ -17,35 +38,33 @@
 </template>
 
 <script lang="ts" setup>
-import { IConhecimento } from 'src/types/interfaces';
-import { EPeriodo } from 'src/types/enumerations';
+import { IConhecimentoList } from 'src/types/interfaces';
+import { PeriodoOptions } from 'src/constants/';
+import { onMounted, ref } from 'vue';
+import api from 'src/api';
+import _ from 'lodash';
 
-const recomendations: Array<IConhecimento> = [
-  {
-    idade: 22,
-    filme_serie: 'Vikings',
-    periodo: { value: EPeriodo.NOITE, label: 'NOITE' },
-    genero_favorito: 'Medieval',
-    estado: 'PR',
-    tempo_disponivel: '01:30',
-  },
-  {
-    idade: 55,
-    filme_serie: 'De volta para o futuro',
-    periodo: { value: EPeriodo.TARDE, label: 'TARDE' },
-    genero_favorito: 'Aventura',
-    estado: 'SC',
-    tempo_disponivel: '00:30',
-  },
-  {
-    idade: 30,
-    filme_serie: 'Bridgerton',
-    periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
-    genero_favorito: 'Romance',
-    estado: 'SC',
-    tempo_disponivel: '04:15',
-  },
-];
+const recomendations = ref<IConhecimentoList[]>([]);
+const showContent = ref(false);
+const loading = ref(false);
+
+onMounted(async () => {
+  loading.value = true;
+  const result = await api.FindAllConhecimento();
+  const arr = _.map(result, (item) => {
+    const option = _.find(PeriodoOptions, (val) => val.value === item.periodo);
+    return {
+      ...item,
+      periodo: { value: item.periodo, label: option ? option.label : '' },
+    };
+  });
+
+  setTimeout(() => {
+    recomendations.value = arr;
+    loading.value = false;
+    showContent.value = true;
+  }, 1000);
+});
 
 const columns = [
   {
@@ -56,10 +75,10 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'filme_serie',
+    name: 'filmeSerie',
     align: 'left',
     label: 'Filme / Série',
-    field: 'filme_serie',
+    field: 'filmeSerie',
     sortable: true,
   },
   {
@@ -70,17 +89,10 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'genero_favorito',
+    name: 'generoFavorito',
     align: 'left',
     label: 'Gênero favorito',
-    field: 'genero_favorito',
-    sortable: true,
-  },
-  {
-    name: 'genero_favorito',
-    align: 'left',
-    label: 'Gênero favorito',
-    field: 'genero_favorito',
+    field: 'generoFavorito',
     sortable: true,
   },
   {
@@ -91,11 +103,16 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'tempo_disponivel',
+    name: 'tempoDisponivel',
     align: 'left',
     label: 'Tempo disponível',
-    field: 'tempo_disponivel',
+    field: 'tempoDisponivel',
     sortable: true,
+  },
+  {
+    name: 'actions',
+    align: 'left',
+    label: 'Ações',
   },
 ];
 </script>

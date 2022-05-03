@@ -22,5 +22,5 @@ export class ConhecimentoEntity {
   estado: string;
 
   @Column({ nullable: true })
-  horasDisponiveis: number;
+  tempoDisponivel: string;
 }
