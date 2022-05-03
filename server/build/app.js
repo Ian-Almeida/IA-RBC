@@ -17,11 +17,13 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const conhecimento_1 = __importDefault(require("./controllers/conhecimento"));
-// Initialize DB
+// Conecta nas configs de banco de dados definidos
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield database_1.default.db.initialize();
+    // Descomentar quando mudar ou adicionar alguma entidade, realiza a sincronização do banco com as entidade encontradas
     //   await database.db.synchronize();
 }))();
+// Instancia dos controllers para plugar ao app express (ENDPOINTS)
 const controllers = {
     conhecimento: new conhecimento_1.default(),
 };
@@ -32,6 +34,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
+// Pluga o controller no app express
 app.use(`${defaultPath}/conhecimento`, controllers.conhecimento.router);
 app.get('/', (req, res) => {
     res.send('Index');

@@ -29,19 +29,19 @@ const path = __importStar(require("path"));
 const conhecimento_1 = require("./entities/conhecimento");
 class DatabaseConfig {
     constructor() {
+        // Encontra a rota atual da aplicação
         this.rootDir = path.resolve(__dirname);
+        // Instancia do banco de dados para acessar na aplicação. A mesma é inicializada no app.ts
         this.db = this.getDB();
     }
     getDB() {
+        // Função que retorna uma instancia do banco de dados de acordo com as configurações
         return new typeorm_1.DataSource({
-            type: "sqlite",
+            type: 'sqlite',
             database: `${this.rootDir}/../src/db.sqlite`,
             entities: [conhecimento_1.ConhecimentoEntity],
-            // migrationsTableName: "custom_migration_table",
-            // migrations: [`${this.rootDir}/migration/*.js`],
             logging: true,
         });
-        ;
     }
 }
 exports.DatabaseConfig = DatabaseConfig;

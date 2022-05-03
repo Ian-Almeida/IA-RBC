@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+// Classe entidade para mapear as colunas e tambem serve como schema
 @Entity()
 export class ConhecimentoEntity {
   @PrimaryGeneratedColumn()

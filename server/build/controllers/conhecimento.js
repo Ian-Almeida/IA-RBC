@@ -16,10 +16,13 @@ const express_1 = require("express");
 const conhecimento_1 = __importDefault(require("../services/conhecimento"));
 class ConhecimentoController {
     constructor() {
+        // Endpoint para o buscar todos, chama o service que faz essa busca no banco
         this.findAll = (req, res) => __awaiter(this, void 0, void 0, function* () {
             res.send(yield this.services.findAll());
         });
+        // Endpoint para o buscar um, chama o service que faz essa busca no banco
         this.findOne = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            // Pega um parametro de caminho da URL e chama o service que faz o buscar um no banco
             if (req.params.id) {
                 const id = +req.params.id;
                 res.send(yield this.services.findOne(id));
@@ -29,15 +32,18 @@ class ConhecimentoController {
                 res.status(500).send('Missing parameter!');
             }
         });
+        // Endpoint que cria um registro de acordo com o que foi passado pelo body da requisição
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const objIn = req.body;
             res.send(this.services.create(objIn));
         });
+        // TODO
         this.update = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const id = +req.params.id;
             const objIn = req.body;
             res.send(yield this.services.update(id, objIn));
         });
+        // TODO
         this.delete = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const id = +req.params.id;
             res.send(this.services.delete(id));
@@ -46,6 +52,7 @@ class ConhecimentoController {
         this.services = new conhecimento_1.default();
         this.routes();
     }
+    // Método que insere as rotas nesse pedaço de router, para ser plugado no app express
     routes() {
         this.router.get('/', this.findAll);
         this.router.get('/:id/', this.findOne);

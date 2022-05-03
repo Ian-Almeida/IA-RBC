@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConhecimentoEntity = void 0;
 const typeorm_1 = require("typeorm");
+// Classe entidade para mapear as colunas e tambem serve como schema
 let ConhecimentoEntity = class ConhecimentoEntity {
 };
 __decorate([

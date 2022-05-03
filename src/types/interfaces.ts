@@ -21,9 +21,9 @@ export interface IConhecimento extends IConhecimentoCreate {
 export interface IConhecimentoUpdate {
   id?: number;
   idade?: number;
-  filme_serie?: string;
+  filmeSerie?: string;
   periodo?: IPeriodo;
-  genero_favorito?: string;
+  generoFavorito?: string;
   estado?: string;
-  tempo_disponivel?: string;
+  tempoDisponivel?: string;
 }

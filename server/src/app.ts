@@ -4,12 +4,14 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import ConhecimentoController from './controllers/conhecimento';
 
-// Initialize DB
+// Conecta nas configs de banco de dados definidos
 (async () => {
   await database.db.initialize();
+  // Descomentar quando mudar ou adicionar alguma entidade, realiza a sincronização do banco com as entidade encontradas
   //   await database.db.synchronize();
 })();
 
+// Instancia dos controllers para plugar ao app express (ENDPOINTS)
 const controllers = {
   conhecimento: new ConhecimentoController(),
 };
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Pluga o controller no app express
 app.use(`${defaultPath}/conhecimento`, controllers.conhecimento.router);
 
 app.get('/', (req: Request, res: Response) => {
