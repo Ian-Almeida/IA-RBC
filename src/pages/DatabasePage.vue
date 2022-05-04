@@ -9,7 +9,7 @@
         >
           <q-table
             title="Base de dados"
-            :rows="recomendations"
+            :rows="conhecimentoItems"
             :columns="columns"
             row-key="name"
             :loading="loading"
@@ -53,7 +53,7 @@ import { onMounted, ref } from 'vue';
 import api from 'src/api';
 import _ from 'lodash';
 
-const recomendations = ref<IConhecimentoList[]>([]);
+const conhecimentoItems = ref<IConhecimentoList[]>([]);
 const showContent = ref(false);
 const loading = ref(false);
 
@@ -73,7 +73,7 @@ onMounted(async () => {
   });
 
   setTimeout(() => {
-    recomendations.value = arr;
+    conhecimentoItems.value = arr;
     loading.value = false;
     showContent.value = true;
   }, 1000);

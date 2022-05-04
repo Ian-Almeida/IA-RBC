@@ -46,13 +46,6 @@
                 lazy-rules
                 :rules="[formRules.required]"
               ></q-select>
-              <q-input
-                filled
-                v-model="formState.filmeSerie"
-                label="Filme / Série"
-                lazy-rules
-                :rules="[formRules.required]"
-              />
               <q-select
                 filled
                 v-model="formState.periodo"
@@ -99,7 +92,23 @@
             label-style="font-size: 1.1em"
           >
             <template #default>
-              <q-btn @click="onReset" color="info" label="Limpar formulário"></q-btn>
+              <div class="q-pa-md q-gutter-md flex justify-center items-center" style="flex-direction: column">
+                <h5>Se nenhuma recomendação agradou, escreva o nome do filme / serie que você assistiu.</h5>
+                <div class="row">
+                  <div class="col">
+                    <q-input
+                      filled
+                      v-model="formState.filmeSerie"
+                      label="Filme / Série"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <q-btn @click="onReset" color="info" label="Concluir"></q-btn>
+                  </div>
+                </div>
+              </div>
             </template>
           </q-inner-loading>
         </q-card>
@@ -116,7 +125,7 @@ import {computed, onMounted, ref} from 'vue';
 import {QForm} from 'quasar';
 import {EPeriodo} from 'src/types/enumerations';
 import RecomendationsComponent from 'components/RecomendationsComponent.vue';
-import {IConhecimentoList} from 'src/types/interfaces';
+import {IConhecimentoList, IConhecimentoRecomendacoes} from 'src/types/interfaces';
 import {PeriodoOptions} from 'src/constants';
 import _ from 'lodash';
 
@@ -131,7 +140,7 @@ const resetedForm = {
 //@ts-ignore
 const myForm = ref<QForm>(null);
 const formState = ref({...resetedForm});
-const recomendations = ref<IConhecimentoList[]>([]);
+const recomendations = ref<IConhecimentoRecomendacoes[]>([]);
 const submitedForm = ref(false);
 
 function onReset() {
@@ -143,22 +152,11 @@ async function onSubmit() {
   const isValid = await myForm.value.validate();
   if (isValid) {
     submitedForm.value = true;
-    await api.CreateConhecimento({
+    const result = await api.getRecomendacao({
       ...formState.value,
       periodo: formState.value.periodo.value,
     });
-
-    const result = await api.FindAllConhecimento();
-    recomendations.value = _.map(result, (item) => {
-      const option = _.find(
-        PeriodoOptions,
-        (val) => val.value === item.periodo
-      );
-      return {
-        ...item,
-        periodo: {value: item.periodo, label: option ? option.label : ''},
-      };
-    });
+    recomendations.value = result ? result : [];
   }
   return;
 }

@@ -12,7 +12,7 @@
             <q-list>
               <q-item>
                 <q-item-section>
-                  <q-item-label>{{ col.generoFavorito }}</q-item-label>
+                  <q-item-label>Score: {{ col.score }}</q-item-label>
                   <!--                <q-item-label caption lines="2">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>-->
                 </q-item-section>
               </q-item>
@@ -29,18 +29,18 @@
 </template>
 
 <script lang="ts" setup>
-import { IConhecimentoList } from 'src/types/interfaces';
+import { IConhecimentoRecomendacoes } from 'src/types/interfaces';
 import { computed } from 'vue';
 
 interface Props {
-  recomendationResult: Array<IConhecimentoList>;
+  recomendationResult: Array<IConhecimentoRecomendacoes>;
 }
 
 const props = defineProps<Props>();
 
 const recomendations = computed(() => {
-  const arrFinal: Array<Array<IConhecimentoList>> = [];
-  let arr: IConhecimentoList[] = [];
+  const arrFinal: Array<Array<IConhecimentoRecomendacoes>> = [];
+  let arr: IConhecimentoRecomendacoes[] = [];
 
   let counter = 0;
   props.recomendationResult.forEach((item, index) => {

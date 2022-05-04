@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   IConhecimento,
   IConhecimentoCreate,
+  IConhecimentoRecomendacoes,
   IConhecimentoUpdate,
 } from './types/interfaces';
 
@@ -77,5 +78,21 @@ export default {
       console.log(e);
       return null;
     }
+  },
+  async getRecomendacao(payload: IConhecimentoCreate
+    ): Promise<IConhecimentoRecomendacoes[] | null> {
+    try {
+      const response = await axios.post<IConhecimentoRecomendacoes[]>(
+        `${APIURL}/conhecimento/recomendar/`,
+        payload
+      );
+      if (response) {
+        return response.data;
+      }
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+    return null;
   },
 };

@@ -41,7 +41,7 @@ export default class ConhecimentoController {
   public recomendar = async (req: Request, res: Response) => {
     const objIn: ConhecimentoEntity = req.body;
     const conhecimento = await this.services.findAll();
-    let itensCalculados: {score: number, filme: string}[] = [];
+    let itensCalculados: {score: number, filmeSerie: string}[] = [];
     conhecimento.forEach((item) => {
       let score = 0;
       const TempoDisponivel = (tempo: string) => {
@@ -65,7 +65,7 @@ export default class ConhecimentoController {
       if(TempoDisponivel(item.tempoDisponivel) <= TempoDisponivel(objIn.tempoDisponivel)) {
         score = score + (this.horas_disponiveis_peso*1);
       }
-      itensCalculados.push({score: score, filme: item.filmeSerie});
+      itensCalculados.push({score: +score.toFixed(2), filmeSerie: item.filmeSerie});
     });
     const itensOrdenados = _.orderBy(itensCalculados, ['score'], ['desc']);
     res.send(itensOrdenados.splice(0, 3));

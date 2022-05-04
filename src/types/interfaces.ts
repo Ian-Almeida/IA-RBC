@@ -14,6 +14,11 @@ export interface IConhecimentoList {
   tempoDisponivel: string;
 }
 
+export interface IConhecimentoRecomendacoes {
+  score: number;
+  filmeSerie: string;
+}
+
 export interface IConhecimentoCreate {
   idade: number | null | undefined;
   filmeSerie: string;
