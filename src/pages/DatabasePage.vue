@@ -19,6 +19,15 @@
                 {{ props.row.periodo.label }}
               </q-td>
             </template>
+            <template #body-cell-actions="props">
+              <q-td key="actions" :props="props">
+                <q-icon class="cursor-pointer" name="delete" size="xs" @click="onClickDelete(props.row)">
+                  <q-tooltip anchor="center end" self="center left"
+                    >Remover</q-tooltip
+                  >
+                </q-icon>
+              </q-td>
+            </template>
             <template #loading>
               <q-inner-loading
                 :showing="loading"
@@ -47,6 +56,10 @@ import _ from 'lodash';
 const recomendations = ref<IConhecimentoList[]>([]);
 const showContent = ref(false);
 const loading = ref(false);
+
+async function onClickDelete() {
+  return;
+}
 
 onMounted(async () => {
   loading.value = true;

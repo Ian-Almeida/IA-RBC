@@ -92,6 +92,16 @@
               </div>
             </q-form>
           </q-card-section>
+          <q-inner-loading
+            :showing="submitedForm"
+            label="Carregando..."
+            label-class="text-primary"
+            label-style="font-size: 1.1em"
+          >
+            <template #default>
+              <q-btn @click="onReset" color="info" label="Limpar formulário"></q-btn>
+            </template>
+          </q-inner-loading>
         </q-card>
       </div>
     </div>
@@ -101,48 +111,54 @@
 <script lang="ts" setup>
 import api from 'src/api';
 import formRules from 'src/formRules';
-import { ESTADOS } from 'src/utils';
-import { computed, onMounted, ref } from 'vue';
-import { QForm } from 'quasar';
-import { EPeriodo } from 'src/types/enumerations';
+import {ESTADOS} from 'src/utils';
+import {computed, onMounted, ref} from 'vue';
+import {QForm} from 'quasar';
+import {EPeriodo} from 'src/types/enumerations';
 import RecomendationsComponent from 'components/RecomendationsComponent.vue';
-import { IConhecimentoList } from 'src/types/interfaces';
-import { PeriodoOptions } from 'src/constants';
+import {IConhecimentoList} from 'src/types/interfaces';
+import {PeriodoOptions} from 'src/constants';
 import _ from 'lodash';
 
-//@ts-ignore
-const myForm = ref<QForm>(null);
-const formState = ref({
+const resetedForm = {
   idade: null,
   filmeSerie: '',
   periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
   generoFavorito: '',
   estado: '',
   tempoDisponivel: '',
-});
+};
+//@ts-ignore
+const myForm = ref<QForm>(null);
+const formState = ref({...resetedForm});
 const recomendations = ref<IConhecimentoList[]>([]);
+const submitedForm = ref(false);
 
+function onReset() {
+  formState.value = {...resetedForm};
+  myForm.value.reset();
+  submitedForm.value = false;
+}
 async function onSubmit() {
   const isValid = await myForm.value.validate();
   if (isValid) {
+    submitedForm.value = true;
     await api.CreateConhecimento({
       ...formState.value,
       periodo: formState.value.periodo.value,
     });
 
     const result = await api.FindAllConhecimento();
-    const arr = _.map(result, (item) => {
+    recomendations.value = _.map(result, (item) => {
       const option = _.find(
         PeriodoOptions,
         (val) => val.value === item.periodo
       );
       return {
         ...item,
-        periodo: { value: item.periodo, label: option ? option.label : '' },
+        periodo: {value: item.periodo, label: option ? option.label : ''},
       };
     });
-
-    recomendations.value = arr;
   }
   return;
 }
