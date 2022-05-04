@@ -19,9 +19,9 @@
             </q-list>
           </q-card-section>
 
-          <!--        <q-card-actions align="center">-->
-          <!--          <q-btn flat round color="red" icon="favorite" />-->
-          <!--        </q-card-actions>-->
+          <q-card-actions align="center">
+            <q-btn flat round color="red" icon="favorite" />
+          </q-card-actions>
         </q-card>
       </div>
     </div>
