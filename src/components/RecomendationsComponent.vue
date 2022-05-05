@@ -13,14 +13,13 @@
               <q-item>
                 <q-item-section>
                   <q-item-label>Score: {{ col.score }}</q-item-label>
-                  <!--                <q-item-label caption lines="2">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>-->
                 </q-item-section>
               </q-item>
             </q-list>
           </q-card-section>
 
           <q-card-actions align="center">
-            <q-btn flat round color="red" icon="favorite" />
+            <q-btn flat round color="red" icon="favorite" @click="onClickFavorite($event, col)"/>
           </q-card-actions>
         </q-card>
       </div>
@@ -31,9 +30,11 @@
 <script lang="ts" setup>
 import { IConhecimentoRecomendacoes } from 'src/types/interfaces';
 import { computed } from 'vue';
+import _ from 'lodash';
 
 interface Props {
   recomendationResult: Array<IConhecimentoRecomendacoes>;
+  onConfirm: (ev: PointerEvent, index: number) => void;
 }
 
 const props = defineProps<Props>();
@@ -44,7 +45,7 @@ const recomendations = computed(() => {
 
   let counter = 0;
   props.recomendationResult.forEach((item, index) => {
-    if (counter === 4) {
+    if (counter === 3) {
       arrFinal.push(arr);
       arr = [];
       counter = 0;
@@ -58,6 +59,11 @@ const recomendations = computed(() => {
   });
   return arrFinal;
 });
+
+function onClickFavorite(ev: PointerEvent, item: IConhecimentoRecomendacoes) {
+  const index = _.findIndex(props.recomendationResult, item);
+  props.onConfirm(ev, index);
+}
 </script>
 
 <style scoped>
