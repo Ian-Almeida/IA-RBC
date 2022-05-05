@@ -13,7 +13,7 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <RecomendationsComponent :recomendation-result="recomendations" :on-confirm="onConfirm"/>
+            <RecomendationsComponent :recomendation-result="recomendations" />
           </q-card-section>
         </q-card>
       </div>
@@ -56,13 +56,16 @@
                 lazy-rules
                 :rules="[formRules.required]"
               ></q-select>
-              <q-input
+              <q-select
                 filled
                 v-model="formState.generoFavorito"
                 label="Gênero favorito"
+                :options="GeneroOptionsList"
+                option-value="value"
+                option-label="label"
                 lazy-rules
                 :rules="[formRules.required]"
-              />
+              ></q-select>
               <q-input
                 filled
                 v-model="formState.tempoDisponivel"
@@ -105,7 +108,7 @@
                 </div>
                 <div class="row">
                   <div class="col">
-                    <q-btn @click="onConfirm" color="info" label="Concluir"></q-btn>
+                    <q-btn @click="onReset" color="info" label="Concluir"></q-btn>
                   </div>
                 </div>
               </div>
@@ -121,12 +124,13 @@
 import api from 'src/api';
 import formRules from 'src/formRules';
 import {ESTADOS} from 'src/utils';
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {QForm} from 'quasar';
 import {EPeriodo} from 'src/types/enumerations';
 import RecomendationsComponent from 'components/RecomendationsComponent.vue';
-import { IConhecimentoRecomendacoes } from 'src/types/interfaces';
-import {PeriodoOptions} from 'src/constants';
+import {IConhecimentoList, IConhecimentoRecomendacoes} from 'src/types/interfaces';
+import {PeriodoOptions, GeneroOptions} from 'src/constants';
+import _ from 'lodash';
 
 const resetedForm = {
   idade: null,
@@ -142,21 +146,9 @@ const formState = ref({...resetedForm});
 const recomendations = ref<IConhecimentoRecomendacoes[]>([]);
 const submitedForm = ref(false);
 
-const PeriodoOptionsList = computed(() => PeriodoOptions);
-
-async function onConfirm(ev: PointerEvent, recomendationIndex = -1) {
-  if (recomendationIndex >= 0) {
-    formState.value.filmeSerie = recomendations.value[recomendationIndex].filmeSerie;
-  }
-
-  await api.CreateConhecimento({
-    ...formState.value,
-    periodo: formState.value.periodo.value,
-  });
-
+function onReset() {
   formState.value = {...resetedForm};
   myForm.value.reset();
-  recomendations.value = [];
   submitedForm.value = false;
 }
 async function onSubmit() {
@@ -172,6 +164,13 @@ async function onSubmit() {
   return;
 }
 
+const PeriodoOptionsList = computed(() => PeriodoOptions);
+
+const GeneroOptionsList = computed(() => GeneroOptions);
+
+onMounted(async () => {
+  return;
+});
 </script>
 
 <style scoped>
