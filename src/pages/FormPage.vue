@@ -13,7 +13,9 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <RecomendationsComponent :recomendation-result="recomendations" />
+            <RecomendationsComponent 
+            :recomendation-result="recomendations" 
+            @on-favorite="favorited"/>
           </q-card-section>
         </q-card>
       </div>
@@ -136,7 +138,7 @@ const resetedForm = {
   idade: null,
   filmeSerie: '',
   periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
-  generoFavorito: '',
+  generoFavorito: {value: '', label: ''},
   estado: '',
   tempoDisponivel: '',
 };
@@ -146,10 +148,16 @@ const formState = ref({...resetedForm});
 const recomendations = ref<IConhecimentoRecomendacoes[]>([]);
 const submitedForm = ref(false);
 
-function onReset() {
+async function onReset() {
+  const result = await api.CreateConhecimento({
+    ...formState.value,
+    periodo: formState.value.periodo.value,
+    generoFavorito: formState.value.generoFavorito.value,
+  });
   formState.value = {...resetedForm};
   myForm.value.reset();
   submitedForm.value = false;
+  recomendations.value = [];
 }
 async function onSubmit() {
   const isValid = await myForm.value.validate();
@@ -158,10 +166,17 @@ async function onSubmit() {
     const result = await api.getRecomendacao({
       ...formState.value,
       periodo: formState.value.periodo.value,
+      generoFavorito: formState.value.generoFavorito.value,
     });
     recomendations.value = result ? result : [];
   }
   return;
+}
+
+async function favorited(filmeSerie: string) {
+  // console.log(filmeSerie)
+  formState.value.filmeSerie = filmeSerie;
+  onReset();
 }
 
 const PeriodoOptionsList = computed(() => PeriodoOptions);

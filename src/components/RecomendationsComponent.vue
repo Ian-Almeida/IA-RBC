@@ -19,7 +19,8 @@
           </q-card-section>
 
           <q-card-actions align="center">
-            <q-btn flat round color="red" icon="favorite" @click="onClickFavorite($event, col)"/>
+            <!-- <q-btn flat round color="red" icon="favorite" @click="onClickFavorite($event, col)"/> -->
+            <q-btn flat round color="red" icon="favorite" @click="$emit('on-favorite', col.filmeSerie)"/>
           </q-card-actions>
         </q-card>
       </div>
@@ -28,8 +29,9 @@
 </template>
 
 <script lang="ts" setup>
-import { IConhecimentoRecomendacoes } from 'src/types/interfaces';
+import { IConhecimento, IConhecimentoRecomendacoes } from 'src/types/interfaces';
 import { computed } from 'vue';
+import api from 'src/api';
 import _ from 'lodash';
 
 interface Props {
@@ -60,9 +62,9 @@ const recomendations = computed(() => {
   return arrFinal;
 });
 
-function onClickFavorite(ev: PointerEvent, item: IConhecimentoRecomendacoes) {
+async function onClickFavorite(ev: PointerEvent, item: IConhecimentoRecomendacoes) {
   const index = _.findIndex(props.recomendationResult, item);
-  props.onConfirm(ev, index);
+  // props.onConfirm(ev, index);
 }
 </script>
 
