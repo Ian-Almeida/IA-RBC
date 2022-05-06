@@ -33,8 +33,8 @@ export default class ConhecimentoService {
   };
 
   // TODO
-  public delete = (id: number) => {
-    return 'Delete from service';
+  public delete = async (id: number) => {
+    return await this.repository.delete(id);
   };
 
   // TODO

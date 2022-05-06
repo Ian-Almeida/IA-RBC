@@ -34,9 +34,9 @@ class ConhecimentoService {
             return 'Update from service';
         };
         // TODO
-        this.delete = (id) => {
-            return 'Delete from service';
-        };
+        this.delete = (id) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.delete(id);
+        });
         // TODO
         this.scores = () => __awaiter(this, void 0, void 0, function* () {
             const result = yield database_1.default.db.query('SELECT * FROM conhecimento_entity');

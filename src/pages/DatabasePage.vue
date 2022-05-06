@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IConhecimentoList } from 'src/types/interfaces';
+import { IConhecimento, IConhecimentoList } from 'src/types/interfaces';
 import { PeriodoOptions } from 'src/constants/';
 import { onMounted, ref } from 'vue';
 import api from 'src/api';
@@ -57,11 +57,17 @@ const conhecimentoItems = ref<IConhecimentoList[]>([]);
 const showContent = ref(false);
 const loading = ref(false);
 
-async function onClickDelete() {
-  return;
+async function onClickDelete(item: IConhecimento) {
+  // console.log(item)
+  const response = await api.DeleteConhecimento(item.id);
+  await Mount();
 }
 
 onMounted(async () => {
+  await Mount();
+});
+
+async function Mount() {
   loading.value = true;
   const result = await api.FindAllConhecimento();
   const arr = _.map(result, (item) => {
@@ -77,7 +83,7 @@ onMounted(async () => {
     loading.value = false;
     showContent.value = true;
   }, 1000);
-});
+}
 
 const columns = [
   {

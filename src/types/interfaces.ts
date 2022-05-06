@@ -6,6 +6,7 @@ interface IPeriodo {
 }
 
 export interface IConhecimentoList {
+  id?: number;
   idade: number | null | undefined;
   filmeSerie: string;
   periodo: IPeriodo;
@@ -29,7 +30,7 @@ export interface IConhecimentoCreate {
 }
 
 export interface IConhecimento extends IConhecimentoCreate {
-  id?: number;
+  id: number;
 }
 
 export interface IConhecimentoUpdate {
