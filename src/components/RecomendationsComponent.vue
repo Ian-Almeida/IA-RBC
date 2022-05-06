@@ -61,11 +61,6 @@ const recomendations = computed(() => {
   });
   return arrFinal;
 });
-
-async function onClickFavorite(ev: PointerEvent, item: IConhecimentoRecomendacoes) {
-  const index = _.findIndex(props.recomendationResult, item);
-  // props.onConfirm(ev, index);
-}
 </script>
 
 <style scoped>
