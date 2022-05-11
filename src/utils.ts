@@ -29,3 +29,5 @@ export const ESTADOS = [
 ];
 
 export const GENEROS = ['Masculino', 'Feminino', 'Outros'];
+
+export const COMPANIAS = ['Sozinho', 'A dois', 'Em grupo'];

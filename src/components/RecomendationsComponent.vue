@@ -12,7 +12,7 @@
             <q-list>
               <q-item>
                 <q-item-section>
-                  <q-item-label>Score: {{ col.score }}</q-item-label>
+                  <q-item-label>Score: {{ col.score }}/5</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -29,10 +29,8 @@
 </template>
 
 <script lang="ts" setup>
-import { IConhecimento, IConhecimentoRecomendacoes } from 'src/types/interfaces';
+import { IConhecimentoRecomendacoes } from 'src/types/interfaces';
 import { computed } from 'vue';
-import api from 'src/api';
-import _ from 'lodash';
 
 interface Props {
   recomendationResult: Array<IConhecimentoRecomendacoes>;

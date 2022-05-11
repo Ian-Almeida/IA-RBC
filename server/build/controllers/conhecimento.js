@@ -21,6 +21,8 @@ class ConhecimentoController {
         this.periodo_peso = 0.4;
         this.genero_favorito_peso = 1;
         this.genero_peso = 0.7;
+        this.compania_peso = 0.6;
+        this.estacao_peso = 0.5;
         this.estado_peso = 0.3;
         this.horas_disponiveis_peso = 0.9;
         // Endpoint para o buscar todos, chama o service que faz essa busca no banco
@@ -63,8 +65,14 @@ class ConhecimentoController {
                 if (item.genero === objIn.genero) {
                     score = score + this.genero_peso * 1;
                 }
+                if (item.compania === objIn.compania) {
+                    score = score + this.compania_peso * 1;
+                }
                 if (item.estado === objIn.estado) {
                     score = score + this.estado_peso * 1;
+                }
+                if (item.estacao === objIn.estacao) {
+                    score = score + this.estacao_peso * 1;
                 }
                 if (TempoDisponivel(item.tempoDisponivel) <=
                     TempoDisponivel(objIn.tempoDisponivel)) {

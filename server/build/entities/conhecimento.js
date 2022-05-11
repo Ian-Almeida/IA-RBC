@@ -37,6 +37,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], ConhecimentoEntity.prototype, "compania", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
 ], ConhecimentoEntity.prototype, "filmeSerie", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
@@ -46,6 +50,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], ConhecimentoEntity.prototype, "tempoDisponivel", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], ConhecimentoEntity.prototype, "estacao", void 0);
 ConhecimentoEntity = __decorate([
     (0, typeorm_1.Entity)()
 ], ConhecimentoEntity);

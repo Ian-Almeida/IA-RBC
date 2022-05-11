@@ -13,6 +13,8 @@ export default class ConhecimentoController {
   public periodo_peso = 0.4;
   public genero_favorito_peso = 1;
   public genero_peso = 0.7;
+  public compania_peso = 0.6;
+  public estacao_peso = 0.5;
   public estado_peso = 0.3;
   public horas_disponiveis_peso = 0.9;
 
@@ -63,8 +65,14 @@ export default class ConhecimentoController {
       if (item.genero === objIn.genero) {
         score = score + this.genero_peso * 1;
       }
+      if (item.compania === objIn.compania) {
+        score = score + this.compania_peso * 1;
+      }
       if (item.estado === objIn.estado) {
         score = score + this.estado_peso * 1;
+      }
+      if (item.estacao === objIn.estacao) {
+        score = score + this.estacao_peso * 1;
       }
       if (
         TempoDisponivel(item.tempoDisponivel) <=

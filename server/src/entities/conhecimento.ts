@@ -19,6 +19,9 @@ export class ConhecimentoEntity {
   genero: string;
 
   @Column({ nullable: true })
+  compania: string;
+
+  @Column({ nullable: true })
   filmeSerie: string;
 
   @Column({ nullable: true })
@@ -26,4 +29,7 @@ export class ConhecimentoEntity {
 
   @Column({ nullable: true })
   tempoDisponivel: string;
+
+  @Column({ nullable: true })
+  estacao: string;
 }

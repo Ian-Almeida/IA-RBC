@@ -63,8 +63,7 @@ const showContent = ref(false);
 const loading = ref(false);
 
 async function onClickDelete(item: IConhecimento) {
-  // console.log(item)
-  const response = await api.DeleteConhecimento(item.id);
+  await api.DeleteConhecimento(item.id);
   await Mount();
 }
 
@@ -131,6 +130,13 @@ const columns = [
     align: 'left',
     label: 'Estado',
     field: 'estado',
+    sortable: true,
+  },
+  {
+    name: 'compania',
+    align: 'left',
+    label: 'Compania',
+    field: 'compania',
     sortable: true,
   },
   {

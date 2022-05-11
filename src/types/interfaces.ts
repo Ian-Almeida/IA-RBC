@@ -12,6 +12,8 @@ export interface IConhecimentoList {
   periodo: IPeriodo;
   generoFavorito: string;
   genero: string;
+  compania: string;
+  estacao: string;
   estado: string;
   tempoDisponivel: string;
 }
@@ -27,6 +29,8 @@ export interface IConhecimentoCreate {
   periodo: number;
   generoFavorito: string;
   genero: string;
+  compania: string;
+  estacao: string;
   estado: string;
   tempoDisponivel: string;
 }
@@ -42,6 +46,8 @@ export interface IConhecimentoUpdate {
   periodo?: number;
   generoFavorito?: string;
   genero?: string;
+  compania?: string;
+  estacao?: string;
   estado?: string;
   tempoDisponivel?: string;
 }

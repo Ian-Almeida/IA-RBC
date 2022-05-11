@@ -43,17 +43,25 @@
               />
               <q-select
                 filled
-                v-model="formState.estado"
-                label="Escolha seu estado"
-                :options="ESTADOS"
+                v-model="formState.genero"
+                label="Gênero"
+                :options="GENEROS"
                 lazy-rules
                 :rules="[formRules.required]"
               ></q-select>
               <q-select
                 filled
-                v-model="formState.genero"
-                label="Gênero"
-                :options="GENEROS"
+                v-model="formState.compania"
+                label="Compania"
+                :options="COMPANIAS"
+                lazy-rules
+                :rules="[formRules.required]"
+              ></q-select>
+              <q-select
+                filled
+                v-model="formState.estado"
+                label="Escolha seu estado"
+                :options="ESTADOS"
                 lazy-rules
                 :rules="[formRules.required]"
               ></q-select>
@@ -142,17 +150,15 @@
 <script lang="ts" setup>
 import api from 'src/api';
 import formRules from 'src/formRules';
-import { ESTADOS, GENEROS } from 'src/utils';
+import { ESTADOS, GENEROS, COMPANIAS } from 'src/utils';
 import { computed, onMounted, ref } from 'vue';
 import { QForm } from 'quasar';
 import { EPeriodo } from 'src/types/enumerations';
 import RecomendationsComponent from 'components/RecomendationsComponent.vue';
 import {
-  IConhecimentoList,
   IConhecimentoRecomendacoes,
 } from 'src/types/interfaces';
 import { PeriodoOptions, GeneroOptions } from 'src/constants';
-import _ from 'lodash';
 
 const resetedForm = {
   idade: null,
@@ -161,6 +167,8 @@ const resetedForm = {
   generoFavorito: '',
   estado: '',
   genero: '',
+  compania: '',
+  estacao: '',
   tempoDisponivel: '',
 };
 //@ts-ignore
@@ -170,7 +178,7 @@ const recomendations = ref<IConhecimentoRecomendacoes[]>([]);
 const submitedForm = ref(false);
 
 async function onReset() {
-  const result = await api.CreateConhecimento({
+  await api.CreateConhecimento({
     ...formState.value,
     periodo: formState.value.periodo.value,
   });
@@ -185,6 +193,7 @@ async function onSubmit() {
     submitedForm.value = true;
     const result = await api.getRecomendacao({
       ...formState.value,
+      estacao: getEstacao.value,
       periodo: formState.value.periodo.value,
     });
     recomendations.value = result ? result : [];
@@ -192,8 +201,12 @@ async function onSubmit() {
   return;
 }
 
+const getEstacao = computed(() => {
+  const  val = Math.floor((new Date().getMonth() / 12 * 4)) % 4;
+  return ['Verão', 'Outono', 'Inverno', 'Primavera'][val];
+})
+
 async function favorited(filmeSerie: string) {
-  // console.log(filmeSerie)
   formState.value.filmeSerie = filmeSerie;
   onReset();
 }
