@@ -21,7 +21,12 @@
             </template>
             <template #body-cell-actions="props">
               <q-td key="actions" :props="props">
-                <q-icon class="cursor-pointer" name="delete" size="xs" @click="onClickDelete(props.row)">
+                <q-icon
+                  class="cursor-pointer"
+                  name="delete"
+                  size="xs"
+                  @click="onClickDelete(props.row)"
+                >
                   <q-tooltip anchor="center end" self="center left"
                     >Remover</q-tooltip
                   >
@@ -91,6 +96,13 @@ const columns = [
     align: 'left',
     label: 'Idade',
     field: 'idade',
+    sortable: true,
+  },
+  {
+    name: 'genero',
+    align: 'left',
+    label: 'Gênero',
+    field: 'genero',
     sortable: true,
   },
   {

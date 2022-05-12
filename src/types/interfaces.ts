@@ -11,6 +11,7 @@ export interface IConhecimentoList {
   filmeSerie: string;
   periodo: IPeriodo;
   generoFavorito: string;
+  genero: string;
   estado: string;
   tempoDisponivel: string;
 }
@@ -25,6 +26,7 @@ export interface IConhecimentoCreate {
   filmeSerie: string;
   periodo: number;
   generoFavorito: string;
+  genero: string;
   estado: string;
   tempoDisponivel: string;
 }
@@ -39,6 +41,7 @@ export interface IConhecimentoUpdate {
   filmeSerie?: string;
   periodo?: number;
   generoFavorito?: string;
+  genero?: string;
   estado?: string;
   tempoDisponivel?: string;
 }

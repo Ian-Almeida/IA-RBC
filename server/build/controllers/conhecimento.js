@@ -20,6 +20,7 @@ class ConhecimentoController {
         this.idade_peso = 0.6;
         this.periodo_peso = 0.4;
         this.genero_favorito_peso = 1;
+        this.genero_peso = 0.7;
         this.estado_peso = 0.3;
         this.horas_disponiveis_peso = 0.9;
         // Endpoint para o buscar todos, chama o service que faz essa busca no banco
@@ -41,31 +42,38 @@ class ConhecimentoController {
         this.recomendar = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const objIn = req.body;
             const conhecimento = yield this.services.findAll();
-            let itensCalculados = [];
+            const itensCalculados = [];
             conhecimento.forEach((item) => {
                 let score = 0;
                 const TempoDisponivel = (tempo) => {
                     const splittedTempo = tempo.split(':');
                     const horas = +splittedTempo[0];
                     const minutos = +splittedTempo[1];
-                    return (horas * 60) + minutos;
+                    return horas * 60 + minutos;
                 };
-                if ((item.idade > objIn.idade - 3) && (item.idade < objIn.idade + 3)) {
-                    score = score + (this.idade_peso * 1);
+                if (item.idade > objIn.idade - 3 && item.idade < objIn.idade + 3) {
+                    score = score + this.idade_peso * 1;
                 }
                 if (item.periodo === objIn.periodo) {
-                    score = score + (this.periodo_peso * 1);
+                    score = score + this.periodo_peso * 1;
                 }
                 if (item.generoFavorito === objIn.generoFavorito) {
-                    score = score + (this.genero_favorito_peso * 1);
+                    score = score + this.genero_favorito_peso * 1;
+                }
+                if (item.genero === objIn.genero) {
+                    score = score + this.genero_peso * 1;
                 }
                 if (item.estado === objIn.estado) {
-                    score = score + (this.estado_peso * 1);
+                    score = score + this.estado_peso * 1;
                 }
-                if (TempoDisponivel(item.tempoDisponivel) <= TempoDisponivel(objIn.tempoDisponivel)) {
-                    score = score + (this.horas_disponiveis_peso * 1);
+                if (TempoDisponivel(item.tempoDisponivel) <=
+                    TempoDisponivel(objIn.tempoDisponivel)) {
+                    score = score + this.horas_disponiveis_peso * 1;
                 }
-                itensCalculados.push({ score: +score.toFixed(2), filmeSerie: item.filmeSerie });
+                itensCalculados.push({
+                    score: +score.toFixed(2),
+                    filmeSerie: item.filmeSerie,
+                });
             });
             const itensOrdenados = lodash_1.default.orderBy(itensCalculados, ['score'], ['desc']);
             res.send(itensOrdenados.splice(0, 3));

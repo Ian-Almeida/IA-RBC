@@ -13,9 +13,10 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <RecomendationsComponent 
-            :recomendation-result="recomendations" 
-            @on-favorite="favorited"/>
+            <RecomendationsComponent
+              :recomendation-result="recomendations"
+              @on-favorite="favorited"
+            />
           </q-card-section>
         </q-card>
       </div>
@@ -45,6 +46,14 @@
                 v-model="formState.estado"
                 label="Escolha seu estado"
                 :options="ESTADOS"
+                lazy-rules
+                :rules="[formRules.required]"
+              ></q-select>
+              <q-select
+                filled
+                v-model="formState.genero"
+                label="Gênero"
+                :options="GENEROS"
                 lazy-rules
                 :rules="[formRules.required]"
               ></q-select>
@@ -95,8 +104,14 @@
             label-style="font-size: 1.1em"
           >
             <template #default>
-              <div class="q-pa-md q-gutter-md flex justify-center items-center" style="flex-direction: column">
-                <h5>Se nenhuma recomendação agradou, escreva o nome do filme / serie que você assistiu.</h5>
+              <div
+                class="q-pa-md q-gutter-md flex justify-center items-center"
+                style="flex-direction: column"
+              >
+                <h5>
+                  Se nenhuma recomendação agradou, escreva o nome do filme /
+                  serie que você assistiu.
+                </h5>
                 <div class="row">
                   <div class="col">
                     <q-input
@@ -108,7 +123,11 @@
                 </div>
                 <div class="row">
                   <div class="col">
-                    <q-btn @click="onReset" color="info" label="Concluir"></q-btn>
+                    <q-btn
+                      @click="onReset"
+                      color="info"
+                      label="Concluir"
+                    ></q-btn>
                   </div>
                 </div>
               </div>
@@ -123,13 +142,16 @@
 <script lang="ts" setup>
 import api from 'src/api';
 import formRules from 'src/formRules';
-import {ESTADOS} from 'src/utils';
-import {computed, onMounted, ref} from 'vue';
-import {QForm} from 'quasar';
-import {EPeriodo} from 'src/types/enumerations';
+import { ESTADOS, GENEROS } from 'src/utils';
+import { computed, onMounted, ref } from 'vue';
+import { QForm } from 'quasar';
+import { EPeriodo } from 'src/types/enumerations';
 import RecomendationsComponent from 'components/RecomendationsComponent.vue';
-import {IConhecimentoList, IConhecimentoRecomendacoes} from 'src/types/interfaces';
-import {PeriodoOptions, GeneroOptions} from 'src/constants';
+import {
+  IConhecimentoList,
+  IConhecimentoRecomendacoes,
+} from 'src/types/interfaces';
+import { PeriodoOptions, GeneroOptions } from 'src/constants';
 import _ from 'lodash';
 
 const resetedForm = {
@@ -138,11 +160,12 @@ const resetedForm = {
   periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
   generoFavorito: '',
   estado: '',
+  genero: '',
   tempoDisponivel: '',
 };
 //@ts-ignore
 const myForm = ref<QForm>(null);
-const formState = ref({...resetedForm});
+const formState = ref({ ...resetedForm });
 const recomendations = ref<IConhecimentoRecomendacoes[]>([]);
 const submitedForm = ref(false);
 
@@ -151,7 +174,7 @@ async function onReset() {
     ...formState.value,
     periodo: formState.value.periodo.value,
   });
-  formState.value = {...resetedForm};
+  formState.value = { ...resetedForm };
   myForm.value.reset();
   submitedForm.value = false;
   recomendations.value = [];

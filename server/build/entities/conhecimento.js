@@ -33,6 +33,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
+], ConhecimentoEntity.prototype, "genero", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
 ], ConhecimentoEntity.prototype, "filmeSerie", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),

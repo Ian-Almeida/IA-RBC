@@ -27,3 +27,5 @@ export const ESTADOS = [
   'SE',
   'TO',
 ];
+
+export const GENEROS = ['Masculino', 'Feminino', 'Outros'];

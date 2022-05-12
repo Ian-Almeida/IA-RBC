@@ -37,11 +37,6 @@ class ConhecimentoService {
         this.delete = (id) => __awaiter(this, void 0, void 0, function* () {
             return yield this.repository.delete(id);
         });
-        // TODO
-        this.scores = () => __awaiter(this, void 0, void 0, function* () {
-            const result = yield database_1.default.db.query('SELECT * FROM conhecimento_entity');
-            return result;
-        });
         // Instancia o repositorio referente a entidade
         // Serve como facilitador para realizar operações com o banco de dados
         this.repository = database_1.default.db.getRepository(conhecimento_1.ConhecimentoEntity);

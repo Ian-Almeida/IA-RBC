@@ -16,6 +16,9 @@ export class ConhecimentoEntity {
   generoFavorito: string;
 
   @Column({ nullable: true })
+  genero: string;
+
+  @Column({ nullable: true })
   filmeSerie: string;
 
   @Column({ nullable: true })

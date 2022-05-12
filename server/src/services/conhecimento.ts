@@ -36,12 +36,4 @@ export default class ConhecimentoService {
   public delete = async (id: number) => {
     return await this.repository.delete(id);
   };
-
-  // TODO
-  public scores = async () => {
-    const result = await DatabaseConfig.db.query(
-      'SELECT * FROM conhecimento_entity'
-    );
-    return result;
-  };
 }
