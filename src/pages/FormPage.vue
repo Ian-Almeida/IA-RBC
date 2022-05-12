@@ -63,8 +63,6 @@
                 v-model="formState.generoFavorito"
                 label="Gênero favorito"
                 :options="GeneroOptionsList"
-                option-value="value"
-                option-label="label"
                 lazy-rules
                 :rules="[formRules.required]"
               ></q-select>
@@ -138,7 +136,7 @@ const resetedForm = {
   idade: null,
   filmeSerie: '',
   periodo: { value: EPeriodo.MANHA, label: 'MANHÃ' },
-  generoFavorito: {value: '', label: ''},
+  generoFavorito: '',
   estado: '',
   tempoDisponivel: '',
 };
@@ -152,7 +150,6 @@ async function onReset() {
   const result = await api.CreateConhecimento({
     ...formState.value,
     periodo: formState.value.periodo.value,
-    generoFavorito: formState.value.generoFavorito.value,
   });
   formState.value = {...resetedForm};
   myForm.value.reset();
@@ -166,7 +163,6 @@ async function onSubmit() {
     const result = await api.getRecomendacao({
       ...formState.value,
       periodo: formState.value.periodo.value,
-      generoFavorito: formState.value.generoFavorito.value,
     });
     recomendations.value = result ? result : [];
   }

@@ -3,6 +3,7 @@
 node_modules
 /server/node_modules
 /server/build
+/server/src/db.*
 
 # Quasar core related directories
 .quasar
