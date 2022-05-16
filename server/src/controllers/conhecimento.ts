@@ -2,6 +2,7 @@ import { Router, Response, Request } from 'express';
 import { ConhecimentoEntity } from '../entities/conhecimento';
 import ConhecimentoService from '../services/conhecimento';
 import _ from 'lodash';
+import {ESTADOS} from '../../../src/utils';
 
 export default class ConhecimentoController {
   // Instacia do router para plugar ao app express
@@ -22,6 +23,24 @@ export default class ConhecimentoController {
     this.router = Router();
     this.services = new ConhecimentoService();
     this.routes();
+  }
+
+  public getEstadosSimilares(estado: string, estadoDB: string) {
+    if (estado === estadoDB) {
+      return true;
+    }
+
+    let isSimilar = false;
+    _.forEach(ESTADOS, (item) => {
+      if(item.value === estado) {
+        _.forEach(item.similares, (similar) => {
+          if (similar === estadoDB) {
+            isSimilar = true;
+          }
+        });
+      }
+    });
+    return isSimilar;
   }
 
   // Endpoint para o buscar todos, chama o service que faz essa busca no banco
@@ -68,7 +87,7 @@ export default class ConhecimentoController {
       if (item.compania === objIn.compania) {
         score = score + this.compania_peso * 1;
       }
-      if (item.estado === objIn.estado) {
+      if (this.getEstadosSimilares(objIn.estado, item.estado)) {
         score = score + this.estado_peso * 1;
       }
       if (item.estacao === objIn.estacao) {
@@ -86,7 +105,20 @@ export default class ConhecimentoController {
       });
     });
     const itensOrdenados = _.orderBy(itensCalculados, ['score'], ['desc']);
-    res.send(itensOrdenados.splice(0, 3));
+    const itensFiltrados: any[] = [];
+    // res.send(itensOrdenados);
+    
+    for (const item of itensOrdenados) {
+      if (itensFiltrados.length == 3) {
+        break;
+      }
+      const achado = _.find(itensFiltrados, (val) => item.filmeSerie === val.filmeSerie);
+      if (achado) {
+        continue;
+      }
+      itensFiltrados.push(item);
+    }
+    res.send(itensFiltrados);
   };
 
   // Endpoint que cria um registro de acordo com o que foi passado pelo body da requisição

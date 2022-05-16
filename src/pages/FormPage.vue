@@ -61,6 +61,8 @@
                 filled
                 v-model="formState.estado"
                 label="Escolha seu estado"
+                option-value="value"
+                option-label="value"
                 :options="ESTADOS"
                 lazy-rules
                 :rules="[formRules.required]"
@@ -160,6 +162,11 @@ import {
 } from 'src/types/interfaces';
 import { PeriodoOptions, GeneroOptions } from 'src/constants';
 
+const getEstacao = computed(() => {
+  const  val = Math.floor((new Date().getMonth() / 12 * 4)) % 4;
+  return ['Verão', 'Outono', 'Inverno', 'Primavera'][val];
+})
+
 const resetedForm = {
   idade: null,
   filmeSerie: '',
@@ -168,7 +175,7 @@ const resetedForm = {
   estado: '',
   genero: '',
   compania: '',
-  estacao: '',
+  estacao: getEstacao.value,
   tempoDisponivel: '',
 };
 //@ts-ignore
@@ -200,11 +207,6 @@ async function onSubmit() {
   }
   return;
 }
-
-const getEstacao = computed(() => {
-  const  val = Math.floor((new Date().getMonth() / 12 * 4)) % 4;
-  return ['Verão', 'Outono', 'Inverno', 'Primavera'][val];
-})
 
 async function favorited(filmeSerie: string) {
   formState.value.filmeSerie = filmeSerie;
